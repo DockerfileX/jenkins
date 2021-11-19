@@ -8,10 +8,9 @@ Jenkins的Docker镜像（官方的镜像有问题）
 
 1. Debian的bullseye
 2. OpenJDK 8
-3. Tomcat 9
-4. Maven
-5. Git
-6. TZ=Asia/Shanghai
+3. Maven
+4. Git
+5. TZ=Asia/Shanghai
 
 ## 3. 编译并上传镜像
 
