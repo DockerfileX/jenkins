@@ -38,6 +38,20 @@ debian)
     apt-get install ttf-dejavu
     # 安装git
     apt-get install git
+    # 安装docker
+    apt-get update
+    apt-get install \
+        ca-certificates \
+        curl \
+        gnupg \
+        lsb-release
+    curl -fsSL https://download.docker.com/linux/debian/gpg \
+        | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    echo \
+        "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
+        $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+    apt-get update
+    apt-get install docker-ce docker-ce-cli containerd.io -y
     ;;
 ubuntu)
     # # 设置时区
@@ -48,6 +62,20 @@ ubuntu)
     apt-get install ttf-dejavu
     # 安装git
     apt-get install git
+    # 安装docker
+    apt-get update
+    apt-get install \
+        ca-certificates \
+        curl \
+        gnupg \
+        lsb-release
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+        | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    echo \
+        "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+        $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null    
+    apt-get update
+    apt-get install docker-ce docker-ce-cli containerd.io -y
     ;;
 centos)
     # # 设置时区
@@ -69,6 +97,14 @@ centos)
     sudo make install
     rm -f /tmp/${GIT_ZIP_FILE_NAME}
     PATH="/usr/local/git/bin:${PATH}"
+    # 安装docker
+    yum install -y yum-utils
+    yum-config-manager \
+        --add-repo \
+        https://download.docker.com/linux/centos/docker-ce.repo
+    yum install docker-ce docker-ce-cli containerd.io
+    systemctl start docker
+    systemctl enable docker
     ;;
 alpine)
     # # 设置时区
@@ -80,6 +116,10 @@ alpine)
     apk add ttf-dejavu
     # 安装git
     apk add git
+    # 安装docker
+    apk add docker
+    apk add openrc --no-cache
+    rc-update add docker boot
     ;;
 *)
     echo unknow os $os, exit!
