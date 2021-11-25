@@ -27,13 +27,6 @@ getOs() {
 os=$(getOs)
 case $os in
 debian)
-    # # 设置时区
-    # TZ=Asia/Shanghai
-    # DEBIAN_FRONTEND=noninteractive
-    # ln -fs /usr/share/zoneinfo/${TZ} /etc/localtime
-    # echo ${TZ} > /etc/timezone
-    # dpkg-reconfigure --frontend noninteractive tzdata
-    # rm -rf /var/lib/apt/lists/*
     # 解决启动报空指针的问题
     apt-get install ttf-dejavu
     # 安装git
@@ -54,10 +47,6 @@ debian)
     apt-get install docker-ce docker-ce-cli containerd.io -y
     ;;
 ubuntu)
-    # # 设置时区
-    # ln -sf /usr/share/zoneinfo/Asia/ShangHai /etc/localtime
-    # echo "Asia/Shanghai" > /etc/timezone
-    # dpkg-reconfigure -f noninteractive tzdata
     # 解决启动报空指针的问题
     apt-get install ttf-dejavu
     # 安装git
@@ -78,12 +67,6 @@ ubuntu)
     apt-get install docker-ce docker-ce-cli containerd.io -y
     ;;
 centos)
-    # # 设置时区
-    # TZ=Asia/Shanghai
-    # ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
-    # echo $TZ > /etc/timezone
-    # # 设置编码格式
-    # LC_ALL en_US.UTF-8
     # 解决启动报空指针的问题
     yum install dejavu-sans-fonts
     # 安装git
@@ -107,11 +90,9 @@ centos)
     systemctl enable docker
     ;;
 alpine)
-    # # 设置时区
-    # apk add tzdata
-    # cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-    # echo "Asia/Shanghai" > /etc/timezone
-    # apk del tzdata
+    # 安装ssh
+    apk add openssh --no-cache
+    rc-update add sshd boot
     # 解决启动报空指针的问题
     apk add ttf-dejavu
     # 安装git
