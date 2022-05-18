@@ -15,6 +15,8 @@ Jenkins的Docker镜像（官方的镜像有问题）
 
 ## 3. 编译并上传镜像
 
+- 2.303.3 LTS
+
 ```sh
 docker buildx build --platform linux/arm64,linux/amd64 \
     -t nnzbz/jenkins:2.303.3 \
@@ -26,6 +28,25 @@ docker buildx build --platform linux/arm64,linux/amd64 \
 docker buildx build --platform linux/arm64,linux/amd64 \
     -t nnzbz/jenkins:latest \
     --build-arg VERSION=2.303.3 \
+    --build-arg STABLE=true
+    --build-arg MAVEN_VERSION=3.8.4 \
+    --build-arg GIT_VERSION=2.9.5 \
+    . --push
+```
+
+- 2.322
+
+```sh
+docker buildx build --platform linux/arm64,linux/amd64 \
+    -t nnzbz/jenkins:2.322 \
+    --build-arg VERSION=2.322 \
+    --build-arg MAVEN_VERSION=3.8.4 \
+    --build-arg GIT_VERSION=2.9.5 \
+    . --push
+# latest
+docker buildx build --platform linux/arm64,linux/amd64 \
+    -t nnzbz/jenkins:latest \
+    --build-arg VERSION=2.322 \
     --build-arg MAVEN_VERSION=3.8.4 \
     --build-arg GIT_VERSION=2.9.5 \
     . --push

@@ -7,6 +7,7 @@ FROM --platform=${TARGETPLATFORM} nnzbz/spring-boot-app
 ARG VERSION
 ARG MAVEN_VERSION
 ARG GIT_VERSION
+ARG STABLE
 
 ENV GIT_VERSION=${GIT_VERSION}
 
@@ -22,13 +23,20 @@ COPY ./run.sh /bin/
 RUN chmod +x /bin/run.sh && /bin/run.sh
 
 # Can be used to customize where jenkins.war get downloaded from
-ARG JENKINS_URL=https://get.jenkins.io/war-stable/${VERSION}/jenkins.war
+ARG JENKINS_URL=https://get.jenkins.io/war/${VERSION}/jenkins.war
+ARG JENKINS_URL_STABLE=https://get.jenkins.io/war-stable/${VERSION}/jenkins.war
 ARG MAVEN_ZIP_FILE_NAME=apache-maven-${MAVEN_VERSION}-bin.tar.gz
 ARG MAVEN_URL=https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/${MAVEN_ZIP_FILE_NAME}
 
 # could use ADD but this one does not check Last-Modified header neither does it allow to control checksum
 # see https://github.com/docker/docker/issues/8331
-RUN curl -fsSL ${JENKINS_URL} -o /usr/local/myservice/jenkins.war
+RUN if [ "${STABLE}" ] ; then \
+        curl -fsSL ${JENKINS_URL_STABLE} -o /usr/local/myservice/jenkins.war \
+        ; \
+    else \
+        curl -fsSL ${JENKINS_URL} -o /usr/local/myservice/jenkins.war \
+        ; \
+    fi
 
 RUN curl -fsSL ${MAVEN_URL} -o /tmp/${MAVEN_ZIP_FILE_NAME}
 
